@@ -1,9 +1,12 @@
-# The SpatialOS GDK for Unity FPS Starter Project readme (alpha)
+# FPS Starter Project - battle-royale-style "shrinking arena" (of doom!)
 
-This starter project is designed to help you get started quickly with the [SpatialOS GDK for Unity](https://github.com/spatialos/gdk-for-unity).
+A basic version of a battle-royale-style shrinking arena mechanic that damages players or NPCs who are not within the safe zone.
 
-## Getting started
+![GDK for Unity Shrinking Arena](./GDK_For_Unity_Shrinking_Arena.JPG)
 
-For information on installing, running and playing the FPS Starter Project, please see our [getting started guide](https://docs.improbable.io/unity/alpha/content/get-started/get-started).
+Controls:
+* `K` - start shrinking 
+* `J` - toggle zone rendering
+* `L` - reset zone
 
-&copy; 2018 Improbable
+This code was originally written for a [video](https://bit.ly/2yDGcKS) we created for the alpha launch of the GDK. Feel free to develop this further - we can't wait to see what other battle-royale style features you build around it!
