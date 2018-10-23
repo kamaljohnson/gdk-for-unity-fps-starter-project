@@ -27,6 +27,7 @@ namespace Fps
     {
         public override void Render(PostProcessRenderContext context)
         {
+            /*
             if (settings.VignetteMask.value == null)
             {
                 return;
@@ -39,6 +40,7 @@ namespace Fps
             sheet.properties.SetFloat("_DAMAGE_INTENSITY", settings.damageIntensity);
             sheet.properties.SetTexture("_VignetteMask", settings.VignetteMask);
             context.command.BlitFullscreenTriangle(context.source, context.destination, sheet, 0);
+            */
         }
     }
 }
