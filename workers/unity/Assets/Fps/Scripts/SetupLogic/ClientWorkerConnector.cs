@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Improbable.Gdk.Core;
 using UnityEngine;
 using Improbable.Gdk.GameObjectCreation;
 using Improbable.Gdk.GameObjectRepresentation;
@@ -27,6 +29,17 @@ namespace Fps
         {
             Application.targetFrameRate = 60;
             await AttemptConnect();
+        }
+        
+        protected override ReceptionistConfig GetReceptionistConfig(string workerType)
+        {
+            return new ReceptionistConfig
+            {
+                ReceptionistHost = RuntimeConfigDefaults.ReceptionistHost, //"192.168.0.11",
+                WorkerType = workerType,
+                WorkerId = CreateNewWorkerId(workerType),
+                UseExternalIp = UseExternalIp,
+            };
         }
 
         protected override string GetWorkerType()
