@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using Improbable.Common;
-using Improbable.Gdk.GameObjectRepresentation;
 using Improbable.Gdk.Guns;
 using Improbable.Gdk.Health;
 using Improbable.Gdk.Movement;
+using Improbable.Gdk.Subscriptions;
 using Unity.Entities;
 using UnityEngine;
 using UnityEngine.AI;
@@ -20,8 +20,8 @@ public class SimulatedPlayerDriver : MonoBehaviour
 
     private PlayerState state = PlayerState.Unknown;
 
-    [Require] private HealthComponent.Requirable.Reader HealthReader;
-    [Require] private HealthComponent.Requirable.CommandRequestSender HealthCommands;
+    [Require] private HealthComponentReader HealthReader;
+    [Require] private HealthComponentCommandSender HealthCommands;
 
     private ClientMovementDriver movementDriver;
     private ClientShooting shooting;
@@ -65,8 +65,8 @@ public class SimulatedPlayerDriver : MonoBehaviour
 
     private void OnEnable()
     {
-        HealthReader.OnHealthModified += OnHealthModified;
-        HealthReader.OnRespawn += OnRespawn;
+        HealthReader.OnHealthModifiedEvent += OnHealthModified;
+        HealthReader.OnRespawnEvent += OnRespawn;
         spatial = GetComponent<SpatialOSComponent>();
         SetPlayerState(PlayerState.LookingForTarget);
     }
@@ -287,7 +287,7 @@ public class SimulatedPlayerDriver : MonoBehaviour
             yield return new WaitForSeconds(5);
             if (HealthCommands != null && spatial != null)
             {
-                HealthCommands.SendRequestRespawnRequest(spatial.SpatialEntityId, new Empty());
+                HealthCommands.SendRequestRespawnCommand(new HealthComponent.RequestRespawn.Request(spatial.SpatialEntityId, new Empty()));
             }
         }
     }

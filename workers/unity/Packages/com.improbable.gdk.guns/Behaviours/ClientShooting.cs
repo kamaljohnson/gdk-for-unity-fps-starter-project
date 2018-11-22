@@ -1,12 +1,12 @@
-using Improbable.Gdk.GameObjectRepresentation;
 using Improbable.Gdk.StandardTypes;
+using Improbable.Gdk.Subscriptions;
 using UnityEngine;
 
 namespace Improbable.Gdk.Guns
 {
     public class ClientShooting : MonoBehaviour, IRequiresGun
     {
-        [Require] private ShootingComponent.Requirable.Writer shooting;
+        [Require] private ShootingComponentWriter shooting;
 
         [SerializeField] private LayerMask shootingLayerMask;
 
@@ -90,7 +90,7 @@ namespace Improbable.Gdk.Guns
                 HitOrigin = (ray.origin - spatial.Worker.Origin).ToIntAbsolute()
             };
 
-            shooting.SendShots(shotInfo);
+            shooting.SendShotsEvent(shotInfo);
         }
     }
 }

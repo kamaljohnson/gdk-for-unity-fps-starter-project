@@ -129,6 +129,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teleportDistanceSqrd: 25
+  groundedRadius: 0.05
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
   rotationConstraints:
     XAxisRotation: 1
     YAxisRotation: 1
@@ -139,7 +143,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1266140103605188}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9ec13cb50ff663d41a5ce131b20ca819, type: 3}
   m_Name: 

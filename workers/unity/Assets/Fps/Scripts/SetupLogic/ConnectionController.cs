@@ -1,16 +1,15 @@
 using Improbable;
-using Improbable.Gdk.GameObjectRepresentation;
+using Improbable.Gdk.Core;
+using Improbable.Gdk.Subscriptions;
 using Improbable.PlayerLifecycle;
-using Improbable.Worker;
-using Improbable.Worker.Core;
+using Improbable.Worker.CInterop;
 using UnityEngine;
 
 namespace Fps
 {
     public class ConnectionController : MonoBehaviour
     {
-        [Require] private PlayerCreator.Requirable.CommandRequestSender commandSender;
-        [Require] private PlayerCreator.Requirable.CommandResponseHandler responseHandler;
+        [Require] private PlayerCreatorCommandSender commandSender;
 
         private GameObject canvasCameraObj;
         private ScreenUIController screenUIController;
@@ -21,14 +20,6 @@ namespace Fps
         {
             clientWorkerConnector = gameObject.GetComponent<ClientWorkerConnector>();
             connectButton = screenUIController.ConnectScreen.GetComponentInChildren<Animator>();
-        }
-
-        private void OnEnable()
-        {
-            if (responseHandler != null)
-            {
-                responseHandler.OnCreatePlayerResponse += OnCreatePlayerResponse;
-            }
         }
 
         public void InformOfUI(GameObject canvasCameraObj, ScreenUIController screenUIController)
@@ -80,7 +71,8 @@ namespace Fps
         private void SpawnPlayer()
         {
             var request = new CreatePlayerRequestType(new Vector3f { X = 0, Y = 0, Z = 0 });
-            commandSender.SendCreatePlayerRequest(new EntityId(1), request);
+            commandSender.SendCreatePlayerCommand(new PlayerCreator.CreatePlayer.Request(new EntityId(1), request),
+                OnCreatePlayerResponse);
         }
 
         public void ConnectAction()

@@ -1,14 +1,14 @@
-using Improbable.Gdk.GameObjectRepresentation;
 using Improbable.Gdk.StandardTypes;
+using Improbable.Gdk.Subscriptions;
 using UnityEngine;
 
 namespace Improbable.Gdk.Movement
 {
     public class ServerMovementDriver : CharacterControllerMotor
     {
-        [Require] private ServerMovement.Requirable.Writer server;
-        [Require] private ClientMovement.Requirable.Reader client;
-        [Require] private Position.Requirable.Writer spatialPosition;
+        [Require] private ServerMovementWriter server;
+        [Require] private ClientMovementReader client;
+        [Require] private PositionWriter spatialPosition;
 
         [SerializeField] private float spatialPositionUpdateHz = 1.0f;
         [SerializeField, HideInInspector] private float spatialPositionUpdateDelta;
@@ -38,7 +38,7 @@ namespace Improbable.Gdk.Movement
             spatialOSComponent = GetComponent<SpatialOSComponent>();
             origin = spatialOSComponent.Worker.Origin;
 
-            client.LatestUpdated += OnClientUpdate;
+            client.OnLatestUpdate += OnClientUpdate;
         }
 
         private void OnClientUpdate(ClientRequest request)
@@ -57,12 +57,12 @@ namespace Improbable.Gdk.Movement
                 TimeDelta = request.TimeDelta
             };
             var update = new ServerMovement.Update { Latest = response };
-            server.Send(update);
+            server.SendUpdate(update);
 
             if (Time.time - lastSpatialPositionTime > spatialPositionUpdateDelta)
             {
                 var positionUpdate = new Position.Update { Coords = positionNoOffset.ToSpatialCoordinates() };
-                spatialPosition.Send(positionUpdate);
+                spatialPosition.SendUpdate(positionUpdate);
                 lastSpatialPositionTime = Time.time;
             }
         }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Improbable.Gdk.Core;
-using Improbable.Worker.Core;
+using Improbable.Worker.CInterop;
 using Unity.Entities;
 using UnityEngine;
 
@@ -38,7 +38,7 @@ namespace Fps
                 timeElapsedSinceUpdate = 0;
                 var fps = CalculateFps();
                 var load = DefaultLoadCalculation(fps);
-                var metrics = new Improbable.Worker.Metrics
+                var metrics = new Metrics
                 {
                     Load = load
                 };

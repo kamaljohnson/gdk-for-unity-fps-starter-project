@@ -1,15 +1,15 @@
 using Improbable.Gdk.Core;
-using Improbable.Gdk.GameObjectRepresentation;
 using Improbable.Gdk.StandardTypes;
+using Improbable.Gdk.Subscriptions;
 using UnityEngine;
 
 namespace Improbable.Gdk.Movement
 {
     public class ClientMovementDriver : GroundCheckingDriver
     {
-        [Require] private ClientMovement.Requirable.Writer client;
-        [Require] private ClientRotation.Requirable.Writer rotation;
-        [Require] private ServerMovement.Requirable.Reader server;
+        [Require] private ClientMovementWriter client;
+        [Require] private ClientRotationWriter rotation;
+        [Require] private ServerMovementReader server;
 
         [SerializeField] private float transformUpdateHz = 15.0f;
         [SerializeField] private float rotationUpdateHz = 15.0f;
@@ -138,8 +138,8 @@ namespace Improbable.Gdk.Movement
         {
             spatialOSComponent = GetComponent<SpatialOSComponent>();
             origin = spatialOSComponent.Worker.Origin;
-            server.LatestUpdated += OnServerUpdate;
-            server.OnForcedRotation += OnForcedRotation;
+            server.OnLatestUpdate += OnServerUpdate;
+            server.OnForcedRotationEvent += OnForcedRotation;
         }
 
         private void OnForcedRotation(RotationUpdate forcedRotation)
@@ -152,7 +152,7 @@ namespace Improbable.Gdk.Movement
                 TimeDelta = forcedRotation.TimeDelta
             };
             var update = new ClientRotation.Update { Latest = new Option<RotationUpdate>(rotationUpdate) };
-            rotation.Send(update);
+            rotation.SendUpdate(update);
 
             cumulativeRotationTimeDelta = 0;
             pitchDirty = rollDirty = yawDirty = false;
@@ -303,7 +303,7 @@ namespace Improbable.Gdk.Movement
                         Timestamp = messageStamp
                     };
                     var update = new ClientMovement.Update { Latest = new Option<ClientRequest>(clientRequest) };
-                    client.Send(update);
+                    client.SendUpdate(update);
                     lastMovementStationary = !anyMovement;
                     didJump = false;
                     anyUpdate = true;
@@ -331,7 +331,7 @@ namespace Improbable.Gdk.Movement
                         TimeDelta = cumulativeRotationTimeDelta
                     };
                     var update = new ClientRotation.Update { Latest = new Option<RotationUpdate>(rotationUpdate) };
-                    rotation.Send(update);
+                    rotation.SendUpdate(update);
                     anyUpdate = true;
                 }
 

@@ -3,6 +3,7 @@ using Improbable.Gdk.Core;
 using Improbable.Gdk.GameObjectCreation;
 using Improbable.Gdk.Movement;
 using Improbable.Gdk.StandardTypes;
+using Improbable.Gdk.Subscriptions;
 using Improbable.Worker;
 using UnityEngine;
 
@@ -29,11 +30,11 @@ public class AdvancedEntityPipeline : IEntityGameObjectCreator
         cachedNonAuthPlayer = Resources.Load<GameObject>(nonAuthPlayer);
     }
 
-    public GameObject OnEntityCreated(SpatialOSEntity entity)
+    public void OnEntityCreated(SpatialOSEntity entity, EntityGameObjectLinker linker)
     {
         if (!entity.HasComponent<Metadata.Component>())
         {
-            return null;
+            return;
         }
 
         var prefabName = entity.GetComponent<Metadata.Component>().EntityType;
@@ -59,11 +60,13 @@ public class AdvancedEntityPipeline : IEntityGameObjectCreator
                 var gameObject = Object.Instantiate(prefab, position, Quaternion.identity);
 
                 gameObject.name = GetGameObjectName(prefab, entity, worker);
-                return gameObject;
+                linker.LinkGameObjectToSpatialOSEntity(entity.SpatialOSEntityId, gameObject);
+                Debug.Log("Link shit");
+                return;
             }
         }
 
-        return fallback.OnEntityCreated(entity);
+        fallback.OnEntityCreated(entity, linker);
     }
 
     private static string GetGameObjectName(GameObject prefab, SpatialOSEntity entity, Worker worker)
@@ -71,8 +74,8 @@ public class AdvancedEntityPipeline : IEntityGameObjectCreator
         return string.Format(GameobjectNameFormat, prefab.name, entity.SpatialOSEntityId, worker.WorkerType);
     }
 
-    public void OnEntityRemoved(EntityId entityId, GameObject linkedGameObject)
+    public void OnEntityRemoved(EntityId entityId)
     {
-        fallback.OnEntityRemoved(entityId, linkedGameObject);
+        fallback.OnEntityRemoved(entityId);
     }
 }

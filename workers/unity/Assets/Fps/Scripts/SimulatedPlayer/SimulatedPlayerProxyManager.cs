@@ -1,10 +1,10 @@
-﻿using Improbable.Gdk.GameObjectRepresentation;
-using Improbable.Worker;
+﻿using Improbable.Gdk.Core;
+using Improbable.Gdk.Subscriptions;
 using UnityEngine;
 
 public class SimulatedPlayerProxyManager : MonoBehaviour
 {
-    private EntityId entityId;
+    [Require] private EntityId entityId;
     private SimulatedPlayerCoordinatorWorkerConnector coordinator;
 
     private void Start()
@@ -12,8 +12,6 @@ public class SimulatedPlayerProxyManager : MonoBehaviour
         coordinator = FindObjectOfType<SimulatedPlayerCoordinatorWorkerConnector>();
         if (coordinator != null)
         {
-            var spatial = GetComponent<SpatialOSComponent>();
-            entityId = spatial.SpatialEntityId;
             coordinator.RegisterProxyPrefabForEntity(entityId, gameObject);
         }
     }

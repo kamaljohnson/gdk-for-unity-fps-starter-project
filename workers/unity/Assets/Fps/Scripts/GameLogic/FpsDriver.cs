@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using Improbable.Common;
 using Improbable.Gdk.Core;
-using Improbable.Gdk.GameObjectRepresentation;
 using Improbable.Gdk.Guns;
 using Improbable.Gdk.Health;
 using Improbable.Gdk.Movement;
 using Improbable.Gdk.StandardTypes;
+using Improbable.Gdk.Subscriptions;
 using UnityEngine;
 
 namespace Fps
@@ -21,11 +21,11 @@ namespace Fps
             public float MaxPitch;
         }
 
-        [Require] private ClientMovement.Requirable.Writer authority;
-        [Require] private ServerMovement.Requirable.Reader serverMovement;
-        [Require] private GunStateComponent.Requirable.Writer gunState;
-        [Require] private HealthComponent.Requirable.Reader health;
-        [Require] private HealthComponent.Requirable.CommandRequestSender commandSender;
+        [Require] private ClientMovementWriter authority;
+        [Require] private ServerMovementReader serverMovement;
+        [Require] private GunStateComponentWriter gunState;
+        [Require] private HealthComponentReader health;
+        [Require] private HealthComponentCommandSender commandSender;
 
         private ClientMovementDriver movement;
         private ClientShooting shooting;
@@ -65,8 +65,8 @@ namespace Fps
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-            serverMovement.OnForcedRotation += OnForcedRotation;
-            health.OnRespawn += OnRespawn;
+            serverMovement.OnForcedRotationEvent += OnForcedRotation;
+            health.OnRespawnEvent += OnRespawn;
         }
 
         private void Update()
@@ -165,7 +165,8 @@ namespace Fps
         {
             while (true)
             {
-                commandSender?.SendRequestRespawnRequest(spatialComponent.SpatialEntityId, new Empty());
+                commandSender?.SendRequestRespawnCommand(
+                    new HealthComponent.RequestRespawn.Request(spatialComponent.SpatialEntityId, new Empty()));
                 yield return new WaitForSeconds(2);
             }
         }
@@ -205,7 +206,7 @@ namespace Fps
                 {
                     IsAiming = new Option<BlittableBool>(shouldBeAiming)
                 };
-                gunState.Send(update);
+                gunState.SendUpdate(update);
             }
         }
 
