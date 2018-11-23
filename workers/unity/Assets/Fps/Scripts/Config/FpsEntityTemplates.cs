@@ -79,6 +79,39 @@ namespace Fps
 
             var scoreComponent = ScoreComponent.Component.CreateSchemaComponentData(0, 0);
 
+            var safeZoneInterest = new ComponentInterest()
+            {
+                Queries = new List<ComponentInterest.Query>()
+                {
+                    new ComponentInterest.Query()
+                    {
+                        Constraint = new ComponentInterest.QueryConstraint()
+                        {
+                            ComponentConstraint = SafeZone.ComponentId,
+                            AndConstraint = new List<ComponentInterest.QueryConstraint>(),
+                            OrConstraint = new List<ComponentInterest.QueryConstraint>()
+                        },
+                        ResultComponentId = new List<uint>()
+                        {
+                            Position.ComponentId, Metadata.ComponentId, SafeZone.ComponentId
+                        }
+                    }
+                }
+            };
+
+            var interestComponentData = Interest.Component.CreateSchemaComponentData(
+                new Dictionary<uint, ComponentInterest>
+                {
+                    {
+                        Position.ComponentId,
+                        safeZoneInterest
+                    },
+                    {
+                        ClientMovement.ComponentId,
+                        safeZoneInterest
+                    }
+                });
+
             return EntityBuilder.Begin()
                 .AddPosition(spawnPosition.x, spawnPosition.y, spawnPosition.z, gameLogic)
                 .AddMetadata("Player", gameLogic)
@@ -94,6 +127,7 @@ namespace Fps
                 .AddComponent(healthRegenComponent, gameLogic)
                 .AddComponent(scoreComponent, gameLogic)
                 .AddPlayerLifecycleComponents(workerId, client, gameLogic)
+                .AddComponent(interestComponentData, client)
                 .Build();
         }
 

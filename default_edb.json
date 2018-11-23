@@ -16,19 +16,6 @@
       }
     ]
   },
-  "load_balancing": {
-    "layer_configurations": [
-      {
-        "layer": "UnityGameLogic",
-        "hex_grid": {
-          "num_workers": 1
-        },
-        "options": {
-          "manual_worker_connection_only": true
-        }
-      }
-    ]
-  },
   "workers": [
     {
       "worker_type": "UnityGameLogic",
@@ -39,7 +26,7 @@
         },
         {
           "name": "safe_zone_max_radius",
-          "value": "100"
+          "value": "200"
         }
       ],
       "permissions": [

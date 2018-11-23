@@ -50,6 +50,7 @@ namespace Fps
             }
             else
             {
+                Debug.LogError(obj.Message);
                 connectButton.SetTrigger("FailedToSpawn");
             }
         }

@@ -2,10 +2,10 @@ namespace Fps
 {
     public class ZoneSettings
     {
-        public static float ShrinkRate = 0.4f;
+        public static float ShrinkRate = 3f;
 
         // public static float MaxRadius = 290f;
-        public static float MaxRadius = 100f;
+        public static float MaxRadius = 400;
 
         public static float MinRadius = 5f;
 
