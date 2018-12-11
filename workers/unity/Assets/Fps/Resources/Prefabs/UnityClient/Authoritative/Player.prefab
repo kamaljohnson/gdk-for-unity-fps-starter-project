@@ -789,6 +789,7 @@ GameObject:
   - component: {fileID: 114775314640606656}
   - component: {fileID: 114898509530246980}
   - component: {fileID: 114781168066614706}
+  - component: {fileID: 114178823959469632}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -2623,6 +2624,17 @@ MonoBehaviour:
   applyRecoil: 0
   userFirstPersonGrip: 1
   gunSocket: {fileID: 114801285074366292}
+--- !u!114 &114178823959469632
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1627949407420470}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7bdf37a2d666214e887de34b820009d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114198340130317920
 MonoBehaviour:
   m_ObjectHideFlags: 1

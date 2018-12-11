@@ -113,6 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ea3fb9b9fa247341b8e990f0b81e918, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SafeZone: {fileID: 0}
 --- !u!143 &143784863591789312
 CharacterController:
   m_ObjectHideFlags: 1
