@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 using Improbable.Gdk.Core;
 using Improbable.Gdk.GameObjectCreation;
 using Improbable.Gdk.GameObjectRepresentation;
@@ -87,7 +88,7 @@ namespace Fps
             return RuntimeConfigDefaults.ReceptionistHost;
 #else
             throw new PlatformNotSupportedException(
-                $"{nameof(AndroidClientWorkerConnector)} can only be used for the Android platform. Please check your build settings.");
+                $"{nameof(AndroidWorkerConnector)} can only be used for the Android platform. Please check your build settings.");
 #endif
         }
 
