@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Changed
+
+- Updated the default Unity version to `2018.3.0f2`.
+
 ### Fixed
 
 - Simulated Players can now rotate about the X axis, enabling them to shoot targets above or below the plane they are on.
